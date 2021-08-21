@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Share a post{% endblock %}
+
+{% block content %}
+    {% if sent %}
+        <h1>E-mail successfully sent</h1>
+        <p>
+            "{{ post.title }}" was successfully sent to {{ form.cleaned_data.to }}
+        </p>
+    {% else %}
+        <h1>Share "{{ post.title }}" by e-mail</h1>
+        <!-- включается актуальный экземпляр формы. Django сообщается,
+        что он должен рендерить поля в HTML-абзацах — элементах <p>
+        с помощью метода as_p -->
+        <!-- Также формы можно отрендерить в виде ненумерованного списка
+         с помощью as_ul или как HTML-таблицу с помощью as_table -->
+        <form action="." method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <!-- Этот ярлык генерирует скрытые поле, которое выглядит вот так:
+                <input type='hidden' name='csrfmiddlewaretoken'
+                value='26JjKo2lcEtYkGoV9z4XmJIEHLXN5LDR' /> -->
+            <input type="submit" value="Send e-mail">
+        </form>
+    {% endif %}
+{% endblock %}
+
+<!-- Если нужно отрендерить каждое поле, можно перебрать поля как в этом примере
+    {% for field in form %}
+        <div>
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+        </div>
+    {% endfor %}
