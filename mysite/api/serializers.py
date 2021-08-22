@@ -15,16 +15,15 @@ class CategorySerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
     comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    api_comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'body', 'author', 'comments', 'categories', 'api_comments']
+        fields = ['id', 'title', 'body', 'author', 'comments', 'categories', 'comments']
 
 
 class UserSerializer(serializers.ModelSerializer):
     blog_posts = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    api_comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     categories = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     # Вместо списка id можно возвращать список URL с помощью HyperlinkedModelSerializer
 
